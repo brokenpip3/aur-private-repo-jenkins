@@ -1,4 +1,4 @@
-#!bin/bash
+#!/usr/bin/env bash
 
 printf "-- Removing comment -- \n"
 sed -i -e "/\s*#.*/s/\s*#.*//" -e "/^\s*$/d" gpgkeys
