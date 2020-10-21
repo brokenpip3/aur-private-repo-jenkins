@@ -54,6 +54,14 @@ spec:
         }
        }
       }
+    stage('gpg keys') {
+      steps {
+		    container('aurbuild') {
+            sh 'sed -i -e "/\s*#.*/s/\s*#.*//" -e "/^\s*$/d ggpkeys'
+            sh "while read line; do gpg --recv-keys --keyserver 'hkp://ipv4.pool.sks-keyservers.net' $line; done < gpgkeys"
+        }
+       }
+      }
     stage("download") {
       steps {
 		    container('aurbuild') {
