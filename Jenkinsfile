@@ -57,8 +57,7 @@ spec:
     stage('gpg keys') {
       steps {
 		    container('aurbuild') {
-            //sh 'grep -vE "#|$^" gpgkeys > _gpgkeys'
-            sh "while read line; do gpg --recv-keys --keyserver 'hkp://ipv4.pool.sks-keyservers.net' $line; done < _gpgkeys"
+            sh './gpgkeys.sh'
         }
        }
       }
