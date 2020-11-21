@@ -11,7 +11,7 @@ spec:
     workingDir: /tmp/jenkins
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:1.4
+    image: brokenpip3/dockerbaseciarch:1.6
     imagePullPolicy: Always
     command:
     - /usr/bin/cat
@@ -20,9 +20,11 @@ spec:
       limits:
         memory: 2Gi
         cpu: 2
+        ephemeral-storage: 5Gi
       requests:
         memory: 1Gi
         cpu: 1
+        ephemeral-storage: 3Gi
     volumeMounts:
       - name: repo-pvc
         mountPath: /srv/repo
