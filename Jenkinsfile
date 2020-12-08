@@ -91,7 +91,7 @@ spec:
       steps {
 	    container('aurbuild')
           {
-          sh "pacman -Q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-*"
+          sh "pacman -Sl |grep -q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-*"
           sh "repoctl add -m /tmp/${params.PACKAGENAME}-*"
           }
     }
