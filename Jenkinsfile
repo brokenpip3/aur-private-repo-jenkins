@@ -11,7 +11,7 @@ spec:
     workingDir: /tmp/jenkins
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:1.6
+    image: brokenpip3/dockerbaseciarch:1.7
     imagePullPolicy: Always
     command:
     - /usr/bin/cat
@@ -89,9 +89,10 @@ spec:
     }
     stage('update repo') {
       steps {
-		      container('aurbuild')
+	    container('aurbuild')
           {
-          sh 'repoctl update'
+          sh "pacman -Q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-*"
+          sh "repoctl add -m /tmp/${params.PACKAGENAME}-*"
           }
     }
     }
