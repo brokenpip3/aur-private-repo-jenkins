@@ -31,7 +31,7 @@ spec:
   volumes:
   - name: repo-pvc
     persistentVolumeClaim:
-      claimName: repo-pvc
+      claimName: new-repo-pvc
 """
     }}
         options { disableConcurrentBuilds()
