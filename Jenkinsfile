@@ -9,7 +9,7 @@ spec:
   containers:
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:1.8
+    image: brokenpip3/dockerbaseciarch:1.9
     imagePullPolicy: Always
     command:
     - /usr/bin/cat
