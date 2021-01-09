@@ -91,10 +91,10 @@ spec:
       steps {
 	    container('aurbuild')
           {
-          sh "pacman -Sl |grep -q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-* || echo 'Package is not present'"
-          sh "repoctl add -m /tmp/${params.PACKAGENAME}-*"
+          //sh "pacman -Sl |grep -q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-* || echo 'Package is not present'"
+          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /tmp/${params.PACKAGENAME}-*"
           }
     }
-    }
+    } 
 }
 }
