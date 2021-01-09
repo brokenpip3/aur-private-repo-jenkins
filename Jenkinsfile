@@ -83,7 +83,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && makepkg -scf --noconfirm"
+      sh "cd ${params.PACKAGENAME} && makepkg -scf --noconfirm | tee /tmp/${params.PACKAGENAME}.log"
     }
     }
     }
@@ -97,4 +97,10 @@ spec:
     }
     } 
 }
+ post {
+        failure {
+            echo 'I failed :('
+            telegramSend(message: "*CI-CD* \n package: ${params.PACKAGENAME} failed", chatId: "${TGCHATID}")
+            }
+    }
 }
