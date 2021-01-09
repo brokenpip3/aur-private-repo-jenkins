@@ -9,7 +9,7 @@ spec:
   containers:
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:1.7
+    image: brokenpip3/dockerbaseciarch:1.8
     imagePullPolicy: Always
     command:
     - /usr/bin/cat
@@ -92,7 +92,7 @@ spec:
 	    container('aurbuild')
           {
           //sh "pacman -Sl |grep -q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-* || echo 'Package is not present'"
-          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /tmp/${params.PACKAGENAME}-*"
+          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-*"
           }
     }
     } 
