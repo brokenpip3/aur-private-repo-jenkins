@@ -100,7 +100,8 @@ spec:
  post {
         failure {
             echo 'I failed :('
-            telegramSend(message: "*CI-CD* \n package: ${params.PACKAGENAME} failed", chatId: "${TGCHATID}")
+            //telegramSend(message: "*CI-CD* \n package: ${params.PACKAGENAME} failed", chatId: "${TGCHATID}")
+            telegramSend "*CI-CD* \n package: ${params.PACKAGENAME} failed"
             }
     }
 }
