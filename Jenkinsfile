@@ -91,7 +91,6 @@ spec:
       steps {
 	    container('aurbuild')
           {
-          //sh "pacman -Sl |grep -q ${params.PACKAGENAME} && rm /srv/repo/${params.PACKAGENAME}-* || echo 'Package is not present'"
           sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-*"
           }
     }
