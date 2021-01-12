@@ -103,7 +103,7 @@ spec:
 
             /usr/bin/curl --silent --output /dev/null \
               --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-              --data-urlencode "text=*CI-CD* package ${params.PACKAGENAME} failed" \
+              --data-urlencode "text=*CI-CD* package ${params.PACKAGENAME} failed ${BUILD_URL}/console " \
               --data-urlencode "parse_mode=Markdown" \
               --data-urlencode "disable_web_page_preview=true" \
               "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
