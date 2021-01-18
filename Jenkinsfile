@@ -9,7 +9,7 @@ spec:
   containers:
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:1.9
+    image: brokenpip3/dockerbaseciarch:2.0
     imagePullPolicy: Always
     command:
     - /usr/bin/cat
@@ -102,7 +102,7 @@ spec:
 
             /usr/bin/curl --silent --output /dev/null \
               --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-              --data-urlencode "text=*CI-CD* package ${params.PACKAGENAME} failed ${BUILD_URL}/console " \
+              --data-urlencode "text=*CI-CD*\n package *${params.PACKAGENAME}* failed\n ${BUILD_URL}/console " \
               --data-urlencode "parse_mode=Markdown" \
               --data-urlencode "disable_web_page_preview=true" \
               "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
