@@ -16,12 +16,12 @@ spec:
     tty: true
     resources:
       limits:
-        memory: 2Gi
-        cpu: 2
+        memory: 1Gi
+        cpu: 500m
         ephemeral-storage: 5Gi
       requests:
         memory: 1Gi
-        cpu: 1
+        cpu: 500m
         ephemeral-storage: 3Gi
     volumeMounts:
       - name: repo-pvc
@@ -96,7 +96,7 @@ spec:
           sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-*"
           }
     }
-    } 
+    }
 }
  post {
         failure {
