@@ -26,8 +26,6 @@ spec:
     volumeMounts:
       - name: repo-pvc
         mountPath: /srv/repo
-  nodeSelector:
-    owner: brokenpip3
   imagePullSecrets:
   - name: registry-brokenpip3
   volumes:
