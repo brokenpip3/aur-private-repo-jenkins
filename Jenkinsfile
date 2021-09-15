@@ -9,15 +9,17 @@ spec:
   containers:
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:2.0
+    image: brokenpip3/dockerbaseciarch:2.3
     imagePullPolicy: Always
     command:
-    - /usr/bin/cat
+    - "sh"
+    - "-c"
+    - 'touch somefile && tail -f /tmp/build.log'
     tty: true
     resources:
       limits:
-        memory: 1Gi
-        cpu: 500m
+        memory: 2Gi
+        cpu: 1500m
         ephemeral-storage: 5Gi
       requests:
         memory: 1Gi
@@ -35,7 +37,7 @@ spec:
 """
     }}
         options { disableConcurrentBuilds()
-                    timeout(time: 10, unit: 'MINUTES')
+                    timeout(time: 15, unit: 'MINUTES')
                 }
 
   parameters {
