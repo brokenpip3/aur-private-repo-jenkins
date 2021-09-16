@@ -14,7 +14,7 @@ spec:
     command:
     - "sh"
     - "-c"
-    - 'touch somefile && tail -f /tmp/build.log'
+    - 'touch /tmp/build.log && tail -f /tmp/build.log'
     tty: true
     resources:
       limits:
@@ -77,7 +77,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && makepkg -s -o --noconfirm"
+      sh "cd ${params.PACKAGENAME} && time makepkg -s -o --noconfirm | tee /tmp/build.log"
     }
     }
     }
@@ -85,7 +85,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && makepkg -scf --noconfirm | tee /tmp/${params.PACKAGENAME}.log"
+      sh "cd ${params.PACKAGENAME} && time makepkg -scf --noconfirm | tee /tmp/build.log"
     }
     }
     }
