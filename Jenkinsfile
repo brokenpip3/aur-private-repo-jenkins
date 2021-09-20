@@ -54,22 +54,22 @@ spec:
     stage('pacman update') {
       steps {
 		    container('aurbuild') {
-            sh 'sudo pacman -Sy'
+            sh 'sudo pacman -Sy | tee -a /tmp/build.log'
         }
        }
       }
     stage('gpg keys') {
       steps {
 		    container('aurbuild') {
-            sh './gpgkeys.sh'
+            sh './gpgkeys.sh | tee -a /tmp/build.log'
         }
        }
       }
     stage("download") {
       steps {
 		    container('aurbuild') {
-            sh "curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/${params.PACKAGENAME}.tar.gz"
-            sh "tar -xvf ${params.PACKAGENAME}.tar.gz"
+            sh "curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/${params.PACKAGENAME}.tar.gz | tee -a /tmp/build.log"
+            sh "tar -xvf ${params.PACKAGENAME}.tar.gz | tee -a /tmp/build.log"
         }
       }
     }
@@ -77,7 +77,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && time makepkg -s -o --noconfirm | tee /tmp/build.log"
+      sh "cd ${params.PACKAGENAME} && time makepkg -s -o --noconfirm | tee -a /tmp/build.log"
     }
     }
     }
@@ -85,7 +85,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && time makepkg -scf --noconfirm | tee /tmp/build.log"
+      sh "cd ${params.PACKAGENAME} && time makepkg -scf --noconfirm | tee -a /tmp/build.log"
     }
     }
     }
@@ -93,7 +93,7 @@ spec:
       steps {
 	    container('aurbuild')
           {
-          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-*"
+          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-* | tee -a /tmp/build.log"
           }
     }
     }
