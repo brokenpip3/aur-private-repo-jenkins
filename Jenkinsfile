@@ -54,21 +54,21 @@ spec:
     stage('pacman update') {
       steps {
 		    container('aurbuild') {
-            sh 'sudo pacman -Sy | tee -a /tmp/build.log'
+            sh 'sudo pacman -Sy'
         }
        }
       }
     stage('gpg keys') {
       steps {
 		    container('aurbuild') {
-            sh './gpgkeys.sh | tee -a /tmp/build.log'
+            sh './gpgkeys.sh'
         }
        }
       }
     stage("download") {
       steps {
 		    container('aurbuild') {
-            sh "curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/${params.PACKAGENAME}.tar.gz | tee -a /tmp/build.log"
+            sh "curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/${params.PACKAGENAME}.tar.gz"
             sh "tar -xvf ${params.PACKAGENAME}.tar.gz | tee -a /tmp/build.log"
         }
       }
@@ -77,7 +77,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && makepkg -s -o --noconfirm | tee -a /tmp/build.log"
+      sh "cd ${params.PACKAGENAME} && makepkg -s -o --noconfirm"
     }
     }
     }
@@ -85,7 +85,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && makepkg -scf --noconfirm | tee -a /tmp/build.log"
+      sh "cd ${params.PACKAGENAME} && makepkg -scf --noconfirm"
     }
     }
     }
@@ -93,12 +93,12 @@ spec:
       steps {
 	    container('aurbuild')
           {
-          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-* | tee -a /tmp/build.log"
+          sh "repo-add -R -p /srv/repo/needrelax.db.tar.zst /srv/repo/${params.PACKAGENAME}-*"
           }
     }
     }
 }
- post {
+post {
         failure {
             sh """
             /usr/bin/curl --silent --output /dev/null \
