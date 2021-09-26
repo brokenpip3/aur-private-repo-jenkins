@@ -77,7 +77,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && time makepkg -s -o --noconfirm | tee -a /tmp/build.log"
+      sh "cd ${params.PACKAGENAME} && makepkg -s -o --noconfirm | tee -a /tmp/build.log"
     }
     }
     }
@@ -85,7 +85,7 @@ spec:
       steps {
 		container('aurbuild')
     {
-      sh "cd ${params.PACKAGENAME} && time makepkg -scf --noconfirm | tee -a /tmp/build.log"
+      sh "cd ${params.PACKAGENAME} && makepkg -scf --noconfirm | tee -a /tmp/build.log"
     }
     }
     }
@@ -98,4 +98,16 @@ spec:
     }
     }
 }
+ post {
+        failure {
+            sh """
+            /usr/bin/curl --silent --output /dev/null \
+              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
+              --data-urlencode "text=*CI-CD*\n package *${params.PACKAGENAME}* failed\n ${BUILD_URL}/console " \
+              --data-urlencode "parse_mode=Markdown" \
+              --data-urlencode "disable_web_page_preview=true" \
+              "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
+            """
+            }
+    }
 }
