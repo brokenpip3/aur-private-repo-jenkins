@@ -46,7 +46,7 @@ spec:
     stage("Setname") {
             steps {
                 // use name of the patchset as the build name
-                buildName "${params.PACKAGENAME} #${BUILD_NUMBER}"
+                buildName "aur-${params.PACKAGENAME} #${BUILD_NUMBER}"
                 buildDescription "${BUILD_NUMBER}"
             }
         }
