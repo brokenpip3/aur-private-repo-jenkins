@@ -36,10 +36,9 @@ spec:
       claimName: jenkins-aur-packages
 """
     }}
-        options { disableConcurrentBuilds()
-                    timeout(time: 15, unit: 'MINUTES')
-                }
-
+  options { disableConcurrentBuilds()
+            timeout(time: 15, unit: 'MINUTES')
+          }
   parameters {
         string(name: 'PACKAGENAME', defaultValue: 'trizen', description: 'Aur package to build')}
 
@@ -98,16 +97,4 @@ spec:
     }
     }
 }
-post {
-        failure {
-            sh """
-            /usr/bin/curl --silent --output /dev/null \
-              --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \
-              --data-urlencode "text=*CI-CD*\n package *${params.PACKAGENAME}* failed\n ${BUILD_URL}/console " \
-              --data-urlencode "parse_mode=Markdown" \
-              --data-urlencode "disable_web_page_preview=true" \
-              "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage"
-            """
-            }
-    }
 }
