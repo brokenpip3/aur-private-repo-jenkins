@@ -73,7 +73,7 @@ stages {
                 def lines = file.readLines()
                 lines.each {
                     packages["package ${it}"] = {
-                        build job: '../aur-package-build/master', parameters: [[$class: 'StringParameterValue', name: 'PACKAGENAME', value: "$it"]], wait: false
+                        build job: 'aur-package-build', parameters: [[$class: 'StringParameterValue', name: 'PACKAGENAME', value: "$it"]], wait: false
                     }
                }
                 parallel packages
