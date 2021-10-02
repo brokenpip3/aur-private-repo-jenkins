@@ -97,4 +97,11 @@ spec:
     }
     }
 }
+// Since we are using emptydir avoid to fill the underlying compute node fs
+post {
+         always {
+            cleanWs()
+              }
+    }
+
 }
