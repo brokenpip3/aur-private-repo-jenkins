@@ -10,7 +10,7 @@ pacman -Sl needrelax
 
 pacman -Sl needrelax |awk '{print $2}' > "$rundir/actualpkglist"
 
-sort pkglist actualpkglist | uniq > totalpkglist
+sort "$rundir/pkglist" "$rundir/actualpkglist" | uniq > "$rundir/totalpkglist"
 
 echo "-- Check packages dependencies --"
 
