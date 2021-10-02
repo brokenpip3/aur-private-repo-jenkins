@@ -54,7 +54,7 @@ stages {
     stage('Check dep') {
       steps {
           container('aurbuild') {
-            sh './check_dep.sh*'
+            sh './check-dep-and-trigger/check_dep.sh*'
        }}
       }
     stage('Build packages') {
@@ -69,7 +69,7 @@ stages {
         script {
                 def packages = [:]
                 env.WORKSPACE = pwd()
-                def file = readFile "${env.WORKSPACE}/pkg-depend-list"
+                def file = readFile "${env.WORKSPACE}/check-dep-and-trigger/pkg-depend-list"
                 def lines = file.readLines()
                 lines.each {
                     packages["package ${it}"] = {

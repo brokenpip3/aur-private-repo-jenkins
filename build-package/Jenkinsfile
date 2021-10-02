@@ -60,7 +60,7 @@ spec:
     stage('gpg keys') {
       steps {
 		    container('aurbuild') {
-            sh './gpgkeys.sh'
+            sh './build-package/gpgkeys.sh'
         }
        }
       }
