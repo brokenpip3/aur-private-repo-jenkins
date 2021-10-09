@@ -9,10 +9,10 @@ spec:
   containers:
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:2.3
+    image: brokenpip3/dockerbaseciarch:2.4
     imagePullPolicy: Always
     envFrom:
-      secretRef:
+    - secretRef:
         name: jenkins-aur-repo
     command:
       - "sh"
