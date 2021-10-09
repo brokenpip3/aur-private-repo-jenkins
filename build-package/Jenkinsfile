@@ -11,10 +11,13 @@ spec:
     workingDir: /tmp/jenkins
     image: brokenpip3/dockerbaseciarch:2.3
     imagePullPolicy: Always
+    envFrom:
+      secretRef:
+        name: jenkins-aur-repo
     command:
-    - "sh"
-    - "-c"
-    - 'touch /tmp/build.log && tail -f /tmp/build.log'
+      - "sh"
+      - "-c"
+      - 'touch /tmp/build.log && tail -f /tmp/build.log'
     tty: true
     resources:
       limits:
@@ -28,8 +31,6 @@ spec:
     volumeMounts:
       - name: repo-pvc
         mountPath: /srv/repo
-  imagePullSecrets:
-  - name: registry-brokenpip3
   volumes:
   - name: repo-pvc
     persistentVolumeClaim:
