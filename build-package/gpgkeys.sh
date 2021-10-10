@@ -7,7 +7,7 @@ sed -i -e "/\s*#.*/s/\s*#.*//" -e "/^\s*$/d" "$rundir/gpgkeys"
 
 printf 'Retriving gpgkeys \n'
 while read -r line; do
-	echo "### adding $line"
+	printf "\n-- adding %s --\n" "$line"
 	gpg --recv-keys --keyserver 'keyserver.ubuntu.com' "$line"
-	echo "###"
+	printf "\n--\n"
 done < "$rundir/gpgkeys"
