@@ -21,9 +21,12 @@ spec:
         cpu: 200m
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:2.3
+    image: brokenpip3/dockerbaseciarch:2.6
     imagePullPolicy: Always
-    command:
+    envFrom:
+    - secretRef:
+        name: jenkins-aur-repo
+    args:
     - /usr/bin/cat
     tty: true
     resources:

@@ -1,27 +1,29 @@
 #!/usr/bin/env bash
 
+[[ -v REPONAME ]] || { printf "No reponame provided, exit"; exit 1; }
+
 rundir=$(dirname "$(readlink -f "$0")")
 
-echo "-- Check one time builded packages and them to pkglist"
+printf "\n-- Check one time builded packages and them to pkglist --\n"
 
 sudo pacman -Sy
 
-pacman -Sl needrelax
+pacman -Sl "${REPONAME}"
 
-pacman -Sl needrelax |awk '{print $2}' > "$rundir/actualpkglist"
+pacman -Sl "${REPONAME}" |awk '{print $2}' > "$rundir/actualpkglist"
 
 sort "$rundir/pkglist" "$rundir/actualpkglist" | uniq > "$rundir/totalpkglist"
 
-echo "-- Check packages dependencies --"
+printf "\n-- Check packages dependencies --\n"
 
 while read -r line;
   do aur depends -n "$line" >> "$rundir/pkg-depend-list";
 done < "$rundir/totalpkglist"
 
-echo "-- Total pkg num --"
+printf "\n-- Total pkg num --\n"
 
 wc -l < "$rundir/pkg-depend-list"
 
-echo "-- Total pkg list --"
+printf "\n-- Total pkg list --\n"
 
 cat "$rundir/pkg-depend-list"

@@ -14,7 +14,7 @@ spec:
     envFrom:
     - secretRef:
         name: jenkins-aur-repo
-    command:
+    args:
       - "sh"
       - "-c"
       - 'touch /tmp/build.log && tail -f /tmp/build.log'
