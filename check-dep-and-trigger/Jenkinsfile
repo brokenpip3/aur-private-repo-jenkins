@@ -21,7 +21,7 @@ spec:
         cpu: 200m
   - name: aurbuild
     workingDir: /tmp/jenkins
-    image: brokenpip3/dockerbaseciarch:2.6
+    image: quay.io/brokenpip3/basearch:latest
     imagePullPolicy: Always
     envFrom:
     - secretRef:
