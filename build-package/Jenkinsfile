@@ -41,12 +41,13 @@ spec:
     timeout(time: 15, unit: 'MINUTES')
     }
     parameters {
-        string(name: 'PACKAGENAME', defaultValue: 'trizen', description: 'Aur package to build')}
+        string(name: 'PACKAGENAME', defaultValue: 'trizen', description: 'Aur package to build')
+        booleanParam(name: 'FORCE_REBUILD', defaultValue: false, description: 'Force re-build the package')
+    }
 
     stages {
-        stage("Setname") {
+        stage("setname") {
             steps {
-                // use name of the patchset as the build name
                 buildName "aur-job-${params.PACKAGENAME} #${BUILD_NUMBER}"
                 buildDescription "${BUILD_NUMBER}"
             }
@@ -65,15 +66,41 @@ spec:
                 }
             }
         }
+        stage('check if the package is already present with that version') {
+            when { expression { env.FORCE_REBUILD != "true" } }
+            steps {
+                script {
+                    container('aurbuild') {
+                        final def lastver = sh(script: "aur query -t info ${params.PACKAGENAME} | jq -r '.results[] | .Version'",
+                        returnStdout: true).trim()
+                        println lastver
+                        final def localver = sh(script: "pacman -Si ${params.PACKAGENAME} | grep Version|cut -d ':' -f 2-",
+                        returnStdout: true).trim()
+                        println "locaver: " + localver + ", lastver: " + lastver
+                        if( lastver == localver ) {
+                            env.RUN_BUILD = "true"
+                        } else {
+                            env.RUN_BUILD = "false"
+                        }
+                    }
+                }
+            }
+        }
         stage("download") {
+            when {
+                expression { env.RUN_BUILD == 'false'}
+            }
             steps {
                 container('aurbuild') {
                     sh "curl -L -O https://aur.archlinux.org/cgit/aur.git/snapshot/${params.PACKAGENAME}.tar.gz"
-                    sh "tar -xvf ${params.PACKAGENAME}.tar.gz | tee -a /tmp/build.log"
+                    sh "tar -xvf ${params.PACKAGENAME}.tar.gz"
                 }
             }
         }
         stage('install dep') {
+            when {
+                expression { env.RUN_BUILD == 'false'}
+            }
             steps {
                 container('aurbuild')
                 {
@@ -82,6 +109,9 @@ spec:
             }
         }
         stage('build') {
+            when {
+                expression { env.RUN_BUILD == 'false'}
+            }
             steps {
                 container('aurbuild')
                 {
@@ -90,6 +120,9 @@ spec:
             }
         }
         stage('update repo') {
+            when {
+                expression { env.RUN_BUILD == 'false'}
+            }
             steps {
                 container('aurbuild')
                 {
