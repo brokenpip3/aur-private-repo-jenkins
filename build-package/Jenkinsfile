@@ -36,7 +36,8 @@ spec:
     persistentVolumeClaim:
       claimName: jenkins-aur-packages
 """
-        }}
+        }
+    }
     options { disableConcurrentBuilds()
     timeout(time: 15, unit: 'MINUTES')
     }
@@ -88,7 +89,10 @@ spec:
         }
         stage("download") {
             when {
-                expression { env.RUN_BUILD == 'false'}
+                anyOf {
+                    expression { env.RUN_BUILD == 'false'}
+                    expression { env.FORCE_REBUILD == "true" }
+                }
             }
             steps {
                 container('aurbuild') {
@@ -99,7 +103,10 @@ spec:
         }
         stage('install dep') {
             when {
-                expression { env.RUN_BUILD == 'false'}
+                anyOf {
+                    expression { env.RUN_BUILD == 'false'}
+                    expression { env.FORCE_REBUILD == "true" }
+                }
             }
             steps {
                 container('aurbuild')
@@ -110,7 +117,10 @@ spec:
         }
         stage('build') {
             when {
-                expression { env.RUN_BUILD == 'false'}
+                anyOf {
+                    expression { env.RUN_BUILD == 'false'}
+                    expression { env.FORCE_REBUILD == "true" }
+                }
             }
             steps {
                 container('aurbuild')
@@ -121,7 +131,10 @@ spec:
         }
         stage('update repo') {
             when {
-                expression { env.RUN_BUILD == 'false'}
+                anyOf {
+                    expression { env.RUN_BUILD == 'false'}
+                    expression { env.FORCE_REBUILD == "true" }
+                }
             }
             steps {
                 container('aurbuild')
