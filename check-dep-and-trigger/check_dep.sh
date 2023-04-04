@@ -12,7 +12,19 @@ pacman -Sl "${REPONAME}"
 
 pacman -Sl "${REPONAME}" |awk '{print $2}' > "$rundir/actualpkglist"
 
+printf "\n-- Pkg list --\n"
+
+cat "$rundir/pkglist"
+
+printf "\n-- Actaul Pkg list --\n"
+
+cat "$rundir/actualpkglist"
+
 sort "$rundir/pkglist" "$rundir/actualpkglist" | uniq > "$rundir/totalpkglist"
+
+printf "\n-- Composed list --\n"
+
+cat "$rundir/totalpkglist"
 
 printf "\n-- Check packages dependencies --\n"
 
