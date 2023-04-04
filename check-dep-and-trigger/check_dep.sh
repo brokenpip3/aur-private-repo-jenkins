@@ -30,7 +30,7 @@ printf "\n-- Check packages dependencies --\n"
 
 while read -r line; do
     echo $line
-    aur depends -n "$line" >> "$rundir/pkg-depend-list-temp"
+    aur depends -n "$line" | { grep -v "$line" || true; } >> "$rundir/pkg-depend-list-temp"
 done < "$rundir/totalpkglist"
 
 printf "\n-- Total pkg num --\n"
