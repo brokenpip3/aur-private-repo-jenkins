@@ -29,15 +29,14 @@ cat "$rundir/totalpkglist"
 printf "\n-- Check packages dependencies --\n"
 
 while read -r line; do
-    echo $line
-    aur depends -n "$line" | { grep -v "$line" || true; } >> "$rundir/pkg-depend-list-temp"
+    printf "Checking dependecy for $line"
+    aur depends -n "$line" | sed '$d' >> "$rundir/pkg-depend-list"
 done < "$rundir/totalpkglist"
 
 printf "\n-- Total pkg num --\n"
 
-wc -l < "$rundir/pkg-depend-list-temp"
+wc -l < "$rundir/pkg-depend-list"
 
 printf "\n-- Total pkg list --\n"
 
-cat "$rundir/pkg-depend-list-temp" |sort -u > "$rundir/pkg-depend-list"
 cat "$rundir/pkg-depend-list"
