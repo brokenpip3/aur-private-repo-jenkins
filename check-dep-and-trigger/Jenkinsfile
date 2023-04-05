@@ -58,7 +58,9 @@ stages {
       steps {
           container('aurbuild') {
             sh './check-dep-and-trigger/check_dep.sh*'
-       }}
+            archiveArtifacts artifacts: "${env.WORKSPACE}/check-dep-and-trigger/pkg-depend-list"
+          }
+      }
       }
     stage('Build packages') {
             when {
