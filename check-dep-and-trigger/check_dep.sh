@@ -29,8 +29,8 @@ cat "$rundir/totalpkglist"
 printf "\n-- Check packages dependencies --\n"
 
 while read -r line; do
-    printf "Checking dependecy for $line"
-    aur depends -n "$line" | sed '$d' >> "$rundir/pkg-depend-list"
+    printf "\n Checking dependecy for $line\n"
+    aur depends -n "$line" | sed '$d' >> "$rundir/pkg-depend-list" 2> /dev/null
 done < "$rundir/totalpkglist"
 
 printf "\n-- Total pkg num --\n"
