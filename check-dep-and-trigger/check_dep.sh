@@ -17,8 +17,10 @@ sort "$rundir/pkglist" "$rundir/actualpkglist" | uniq > "$rundir/totalpkglist"
 printf "\n-- Check packages dependencies --\n"
 
 while read -r line;
-  do aur depends -n "$line" >> "$rundir/pkg-depend-list";
+  do aur depends -n "$line" >> "$rundir/_pkg-depend-list";
 done < "$rundir/totalpkglist"
+
+awk -F ' ' '{print $2}' "$rundir/_pkg-depend-list" | sort -u > "$rundir/pkg-depend-list"
 
 printf "\n-- Total pkg num --\n"
 
