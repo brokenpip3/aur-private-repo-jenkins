@@ -11,7 +11,7 @@ FROM archlinux:base-devel as BUILDER
 ARG PKGDEST
 ARG GPGOPT
 RUN printf "PKGDEST=${PKGDEST}\n" >> /etc/makepkg.conf \
-   && pacman -Sy archlinux-keyring --noconfirm --noprogressbar && pacman -Syy --needed --noconfirm --noprogressbar git base-devel \
+   && pacman -Sy archlinux-keyring --noconfirm --noprogressbar && pacman -Syyu --needed --noconfirm --noprogressbar git base-devel \
    && pacman -Sc --noconfirm
 RUN useradd --create-home --shell /bin/bash makepkg && touch /etc/sudoers.d/makepkg \
    && printf "makepkg ALL=(ALL) NOPASSWD: /usr/bin/makepkg, /usr/bin/pacman\n" > /etc/sudoers.d/makepkg && mkdir /build \
@@ -31,7 +31,7 @@ ARG GPGOPT
 COPY --from=BUILDER /srv/repo/*.pkg.tar.zst /tmp/
 COPY entrypoint.sh /
 RUN printf "PKGDEST=${PKGDEST}\n" >> /etc/makepkg.conf
-RUN pacman -Sy archlinux-keyring --noconfirm --noprogressbar && pacman -Syy --needed --noconfirm --noprogressbar icu base-devel jq \
+RUN pacman -Sy archlinux-keyring --noconfirm --noprogressbar && pacman -Syyu --needed --noconfirm --noprogressbar icu base-devel jq \
    && pacman -U /tmp/*.pkg.tar.zst --noconfirm && pacman -Sc --noconfirm
 RUN useradd --create-home --shell /bin/bash makepkg && touch /etc/sudoers.d/makepkg /home/makepkg/mypersonalrepo.conf \
    && printf "makepkg ALL=(ALL) NOPASSWD: /usr/bin/makepkg, /usr/bin/pacman\n" > /etc/sudoers.d/makepkg \
